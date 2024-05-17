@@ -14,7 +14,7 @@ There are two manifest in the current repository:
 kubectl apply -f install.yaml
 ```
 
-2. For the Admin Network Policies and Baseline Admint Network Policies the CRDs has to be installed first:
+2. For the Admin Network Policies and Baseline Admin Network Policies the CRDs have to be installed first:
 ```
 kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/network-policy-api/v0.1.5/config/crd/experimental/policy.networking.k8s.io_adminnetworkpolicies.yaml
 
@@ -48,13 +48,13 @@ Current implemented metrics are:
 
 ## Development
 
-Network policies are hard to implement efficiently and in large clusters this is translated to performance and scalability problems.
+Network policies are hard to implement efficiently and in large clusters. This translates to performance and scalability problems.
 
 Most of the existing implementations use the same approach of processing the APIs and transforming them in the corresponding dataplane implementation: iptables, nftables, ebpf or ovs, ...
 
 This project takes a different approach. It uses the NFQUEUE functionality implemented in netfilter to process the first packet of each connection in userspace and emit a verdict. The advantage is that the dataplane implementation does not need to represent all the complex logic, allowing it to scale better. The disadvantage is that we need to pass each new connection packet through userspace.
 
-There are some performance improvements that can be applied, such as to restrict in the dataplane the packets that are sent to userspace to the ones that have network policies only, so only
+There are some performance improvements that can be applied, such as to have the dataplane restrict the packets that are sent to userspace to the ones that have network policies only, so only
 the Pods affected by network policies will hit the first byte performance.
 
 ## Testing
